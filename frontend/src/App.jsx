@@ -50,11 +50,11 @@ function App() {
     try {
       // setStatus({ status: 'progress', message: 'Processing...' });
 
-      let url = 'http://157.151.227.133:8000/api/tokenize';
+      let url = 'https://74b6651db45d.ngrok-free.app/api/tokenize';
       let body = { text: inputVal, model_id: modelId };
 
       if (mode === 'decode') {
-        url = 'http://157.151.227.133:8000/api/decode';
+        url = 'https://74b6651db45d.ngrok-free.app/api/decode';
         // Parse IDs from string
         // Parse IDs from string: split by comma, sanitize each chunk
         // "1503}" -> "1503"
