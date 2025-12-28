@@ -37,11 +37,11 @@ function App() {
     try {
       // setStatus({ status: 'progress', message: 'Processing...' });
 
-      let url = 'http://localhost:8000/api/tokenize';
+      let url = '/api/tokenize';
       let body = { text: inputVal, model_id: modelId };
 
       if (mode === 'decode') {
-        url = 'http://localhost:8000/api/decode';
+        url = '/api/decode';
         // Parse IDs from string
         // Parse IDs from string: split by comma, sanitize each chunk
         // "1503}" -> "1503"
