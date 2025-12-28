@@ -50,11 +50,11 @@ function App() {
     try {
       // setStatus({ status: 'progress', message: 'Processing...' });
 
-      let url = 'https://74b6651db45d.ngrok-free.app/api/tokenize';
+      let url = 'https://unvermiculated-goodheartedly-granville.ngrok-free.dev/api/tokenize';
       let body = { text: inputVal, model_id: modelId };
 
       if (mode === 'decode') {
-        url = 'https://74b6651db45d.ngrok-free.app/api/decode';
+        url = 'https://unvermiculated-goodheartedly-granville.ngrok-free.dev/api/decode';
         // Parse IDs from string
         // Parse IDs from string: split by comma, sanitize each chunk
         // "1503}" -> "1503"
