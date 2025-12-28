@@ -1,7 +1,2 @@
-fastapi
 uvicorn
-transformers
-torch
-sentencepiece
-protobuf
-python-multipart
+uv
