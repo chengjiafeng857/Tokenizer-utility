@@ -1,3 +1,6 @@
 backend/hf_*
 frontend/node_modules
 frontend/package-lock.json
+.DS_Store 
+backend/__pycache__/main.cpython-312.pyc
+backend/uv.lock

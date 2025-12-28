@@ -16,7 +16,7 @@
 body {
   margin: 0;
   display: flex;
-  place-items: center;
+  place-items: start;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -25,11 +25,11 @@ body {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem 1rem 0 1rem;
 }
 
 header {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   text-align: center;
 }
 
@@ -38,6 +38,7 @@ header h1 {
   margin-bottom: 1rem;
   background: linear-gradient(90deg, #646cff 0%, #a855f7 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -88,9 +89,13 @@ button:hover {
 .card {
   background: #1a1a1a;
   border-radius: 8px;
-  padding: 1.5rem;
-  margin-bottom: 2rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.card:last-child {
+  margin-bottom: 0;
 }
 
 .card h2 {
@@ -127,6 +132,11 @@ textarea {
   gap: 2rem;
 }
 
+.visualization-grid>* {
+  flex: 1;
+  min-width: 0;
+}
+
 /* Text Viewer */
 .text-viewer {
   font-family: 'Courier New', Courier, monospace;
@@ -139,13 +149,14 @@ textarea {
   border-radius: 6px;
   border: 1px solid #30363d;
   min-height: 100px;
-  max-height: 400px;
+  max-height: 600px;
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .char {
   transition: background-color 0.1s;
-  cursor: crosshair;
+  cursor: default;
   position: relative;
   /* For tooltip positioning */
 }
@@ -179,14 +190,16 @@ textarea {
 .token-display {
   display: flex;
   flex-wrap: wrap;
+  align-content: flex-start;
   gap: 0.5rem;
   padding: 1rem;
   background: #0d1117;
   border-radius: 6px;
   border: 1px solid #30363d;
   min-height: 100px;
-  max-height: 400px;
+  max-height: 600px;
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .token-chip {
@@ -206,8 +219,8 @@ textarea {
   /* For tooltip */
 }
 
-.token-chip:hover,
-.token-chip.active {
+.token-chip.active,
+.token-chip.highlighted {
   background: #646cff;
   color: white;
   border-color: #646cff;
