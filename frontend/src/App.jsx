@@ -50,7 +50,7 @@ function App() {
     }
 
     try {
-      // setStatus({ status: 'progress', message: 'Processing...' });
+      setStatus({ status: 'progress', message: 'Processing...' });
 
       let url = 'https://unvermiculated-goodheartedly-granville.ngrok-free.dev/api/tokenize';
       let body = { text: inputVal, model_id: modelId };
