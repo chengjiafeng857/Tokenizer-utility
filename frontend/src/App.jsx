@@ -233,6 +233,10 @@ function App() {
   };
 
 
+  const handleRetry = () => {
+    processInput(text);
+  };
+
   return (
     <div className="container" onClick={handleContainerClick}>
       {tooltip && (
@@ -280,8 +284,13 @@ function App() {
           <button onClick={() => loadModel()}>Load Model</button>
         </div>
         {status && (
-          <div className={`status ${status.status === 'error' ? 'error' : ''}`}>
-            {status.status === 'progress' ? `Processing...` : status.message}
+          <div className={`status ${status.status === 'error' ? 'error' : ''}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem' }}>
+            <span>{status.status === 'progress' ? `Processing...` : status.message}</span>
+            {status.status === 'error' && (
+              <button onClick={handleRetry} style={{ padding: '0.2rem 0.6rem', fontSize: '0.8rem', background: '#d32f2f', color: 'white', border: '1px solid #ffcdd2', borderRadius: '4px', cursor: 'pointer' }}>
+                Retry
+              </button>
+            )}
           </div>
         )}
       </header>
