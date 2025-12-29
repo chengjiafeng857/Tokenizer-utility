@@ -33,6 +33,9 @@ class TokenizeResponse(BaseModel):
 # We use lru_cache on a helper function
 @functools.lru_cache(maxsize=10)
 def get_tokenizer(model_id: str):
+    if not model_id or not model_id.strip():
+         raise HTTPException(status_code=400, detail="Model ID cannot be empty")
+         
     print(f"Loading tokenizer: {model_id}")
     try:
         return AutoTokenizer.from_pretrained(model_id, trust_remote_code=True)

@@ -5,6 +5,7 @@ import './App.css';
 function App() {
   const [text, setText] = useState('Hello world. This is a test of the tokenizer.');
   const [modelId, setModelId] = useState('Qwen/Qwen3-0.6B');
+  const [inputModelId, setInputModelId] = useState('Qwen/Qwen3-0.6B');
   const [status, setStatus] = useState(null); // { status: 'ready', message: '...' }
   const [tokens, setTokens] = useState([]);
   const [hoveredTokenIndex, setHoveredTokenIndex] = useState(null);
@@ -30,7 +31,13 @@ function App() {
   }, [text, mode]);
 
   const loadModel = async (id) => {
-    setStatus({ status: 'ready', message: `Model set to ${id} (Mode: ${mode})` });
+    // If id is passed (e.g. initial load), use it. Otherwise use inputModelId.
+    const newId = typeof id === 'string' ? id : inputModelId;
+    if (newId !== modelId) {
+      setModelId(newId);
+    }
+    // Even if same, we show status and ensure isLoaded
+    setStatus({ status: 'ready', message: `Model set to ${newId} (Mode: ${mode})` });
     setIsLoaded(true);
   };
 
@@ -46,6 +53,11 @@ function App() {
         }
         return prev;
       });
+      return;
+    }
+
+    if (!modelId || !modelId.trim()) {
+      setStatus({ status: 'error', message: 'Please enter a Model ID' });
       return;
     }
 
@@ -250,8 +262,8 @@ function App() {
         <div className="input-group">
           <input
             type="text"
-            value={modelId}
-            onChange={(e) => setModelId(e.target.value)}
+            value={inputModelId}
+            onChange={(e) => setInputModelId(e.target.value)}
             placeholder="Hugging Face Model ID (e.g. roberta-base)"
           />
           <select value={mode} onChange={(e) => {
@@ -265,7 +277,7 @@ function App() {
             <option value="tokenize">Text → IDs</option>
             <option value="decode">IDs → Text</option>
           </select>
-          <button onClick={() => loadModel(modelId)}>Load Model</button>
+          <button onClick={() => loadModel()}>Load Model</button>
         </div>
         {status && (
           <div className={`status ${status.status === 'error' ? 'error' : ''}`}>
