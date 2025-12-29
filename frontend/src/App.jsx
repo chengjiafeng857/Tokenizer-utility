@@ -41,7 +41,7 @@ function App() {
     setIsLoaded(true);
   };
 
-  const processInput = useCallback(async (inputVal, signal) => {
+  const processInput = useCallback(async (inputVal, signal, attempt = 0) => {
     if (!inputVal) {
       setTokens([]);
       setVisualizedText('');
@@ -110,6 +110,16 @@ function App() {
     } catch (err) {
       if (err.name === 'AbortError') return;
       console.error(err);
+
+      // Auto-retry once
+      if (attempt < 1) {
+        console.log("Auto-retrying request...");
+        // Small delay before retry? Not strictly necessary but often good. 
+        // For simplicity, direct recursive call.
+        processInput(inputVal, signal, attempt + 1);
+        return;
+      }
+
       setStatus({ status: 'error', message: err.message });
     }
   }, [modelId, mode]);
