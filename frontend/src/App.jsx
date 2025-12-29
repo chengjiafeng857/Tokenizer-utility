@@ -15,6 +15,7 @@ function App() {
 
   // New state for what is visualized on the left panel (decoded text vs input text)
   const [visualizedText, setVisualizedText] = useState('');
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     // Initial load
@@ -30,9 +31,10 @@ function App() {
 
   const loadModel = async (id) => {
     setStatus({ status: 'ready', message: `Model set to ${id} (Mode: ${mode})` });
+    setIsLoaded(true);
   };
 
-  const processInput = useCallback(async (inputVal) => {
+  const processInput = useCallback(async (inputVal, signal) => {
     if (!inputVal) {
       setTokens([]);
       setVisualizedText('');
@@ -74,7 +76,8 @@ function App() {
       const response = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
+        signal
       });
 
       if (!response.ok) {
@@ -89,7 +92,11 @@ function App() {
         setVisualizedText(data.text);
       }
 
+      // Clear error status on success
+      setStatus({ status: 'ready', message: 'Ready' });
+
     } catch (err) {
+      if (err.name === 'AbortError') return;
       console.error(err);
       setStatus({ status: 'error', message: err.message });
     }
@@ -97,13 +104,17 @@ function App() {
 
   // Trigger processing with debouncing
   useEffect(() => {
-    if (status?.status === 'ready' || status?.status === 'progress' || status?.status === 'error') {
-      const timer = setTimeout(() => {
-        processInput(text);
-      }, 500);
-      return () => clearTimeout(timer);
-    }
-  }, [text, mode, processInput, status?.status]);
+    if (!isLoaded) return;
+
+    const controller = new AbortController();
+    const timer = setTimeout(() => {
+      processInput(text, controller.signal);
+    }, 500);
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
+  }, [text, mode, processInput, isLoaded]);
 
   // Handle hover on token
   const handleTokenEnter = (index) => {
