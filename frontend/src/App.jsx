@@ -4,8 +4,8 @@ import './App.css';
 
 function App() {
   const [text, setText] = useState('Hello world. This is a test of the tokenizer.');
-  const [modelId, setModelId] = useState('Qwen/Qwen3-0.6B');
-  const [inputModelId, setInputModelId] = useState('Qwen/Qwen3-0.6B');
+  const [modelId, setModelId] = useState('meta-llama/Llama-3.2-1B');
+  const [inputModelId, setInputModelId] = useState('meta-llama/Llama-3.2-1B');
   const [status, setStatus] = useState(null); // { status: 'ready', message: '...' }
   const [tokens, setTokens] = useState([]);
   const [hoveredTokenIndex, setHoveredTokenIndex] = useState(null);
